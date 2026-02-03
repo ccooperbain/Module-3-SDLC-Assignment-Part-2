@@ -1,7 +1,17 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.nio.file.Path;
+
+/**
+ * Name: Christopher Bain
+ * Course: 202620-CEN-3024C-23585
+ * Date: 02/03/2026
+ *
+ * Class Name: Patrons
+ *
+ * This class represents a patron in the Library Management System.
+ * It stores patron information such as ID, name, address, and overdue
+ * fine amount.
+ *
+ */
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,7 +31,7 @@ public class Patrons {
     }
 
     Patrons() {
-        //add a try catch and loop if there is an incorrect entry.
+        //add a try catch and loop if there is an incorrect entry. added inside
         setId();
         setName();
         setAddress();
@@ -30,14 +40,22 @@ public class Patrons {
 
     Patrons(String entry){
         System.out.println("This is the string that was passed : " + entry);
-    }
+        try {
+            String[] parts = entry.split("-"); //apart of the string class that can take an argument to split the string with
+            //https://www.w3schools.com/java/ref_string_split.asp
 
-    public void acceptFileByline(String file) {
-        //todo add protector again bad file inputs
-        //todo catch the exception int the calling function
+            this.id = Integer.parseInt(parts[0]);
+            //https://www.geeksforgeeks.org/java/integer-valueof-vs-integer-parseint-with-examples/
+            this.name = parts[1];
+            this.address = parts[2];
+            this.overdueFine = Double.parseDouble(parts[3]);
+            //https://www.geeksforgeeks.org/java/double-parsedouble-method-in-java-with-examples/
 
+        } catch (Exception e) {
+            System.out.println("Invalid patron entry: " + entry);
+        }
+    }//todo does this try the same incorrect input or does it try a new line
 
-    }
 
     public int getId() {
         return id;
@@ -47,20 +65,18 @@ public class Patrons {
     }
 
     public void setId() {
-        boolean flag = false;
-        for(int i = 1; i < 9999999; i++){
-            for(Patrons p : patrons){
-                if(p.getId() == i){
-                    //the id is taken
-                }else{
-                    //the id is free
-                    this.id = i;
-                    flag = true;
-                    //how far does break break out of the loop
+        for (int i = 1; i <= 9999999; i++) {
+            boolean taken = false;
+            for (Patrons p : patrons) {
+                if (p.getId() == i) {
+                    taken = true;
                     break;
-                     }
-            }//the break in the "if else" handles this
-            if(flag){break;}
+                }
+            }//parses through all objects in the array
+            if (!taken) {
+                this.id = i;
+                return;
+            }
         }
     }//end of setId Function
 
@@ -91,11 +107,18 @@ public class Patrons {
     public void setOverdueFine() {
         Scanner input = new Scanner(System.in);
         //todo add validation to protect input.
-        this.overdueFine = input.nextDouble();
+        while (true) {
+            try {
+                this.overdueFine = Double.parseDouble(input.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.print("Enter a valid number: ");
+            }
+        }
     }
 
     @Override
     public String toString() {
         return getIdFormated() + "-"+name+"-"+address+"-"+overdueFine;
     }
-}
+}//End of patrons class
