@@ -33,8 +33,13 @@ public class Patrons {
     Patrons() {
         //add a try catch and loop if there is an incorrect entry. added inside
         setId();
+        System.out.print("Enter the name of the patron >");
         setName();
+        System.out.println();
+        System.out.print("Enter the address of the patron >");
         setAddress();
+        System.out.println();
+        System.out.print("Enter the overdue fine of the patron >");
         setOverdueFine();
     }
 
