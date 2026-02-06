@@ -188,7 +188,7 @@ public class Main {
      * None
      */
 
-    static void addFromFile(){System.out.println("add from file rember to remove the quotes");
+    static void addFromFile(){System.out.println("add from file remember to remove the quotes");
         System.out.print(">");
         //input text file location and read from it line by line added the value to the arrays.
         Scanner fileLocation = new Scanner(System.in);
@@ -196,7 +196,14 @@ public class Main {
             BufferedReader fileSource = new BufferedReader(new FileReader(fileLocation.nextLine()));
             //The file expects a path that does not include the quotation marks.
             while(fileSource.ready()){
-                Patrons.patrons.add(new Patrons(fileSource.readLine())); //sends a string to the constructor
+
+                try{
+                    Patrons.patrons.add(new Patrons(fileSource.readLine())); //sends a string to the constructor
+                }catch(Exception e){
+                    System.out.println("Invalid patron entry from file. ");
+                }
+
+                //Patrons.patrons.add(new Patrons(fileSource.readLine())); //sends a string to the constructor
                 //the constructor must parse through the string
                 //the expected file format is
             }

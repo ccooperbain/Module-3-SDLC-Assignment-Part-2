@@ -43,13 +43,19 @@ public class Patrons {
         setOverdueFine();
     }
 
-    Patrons(String entry){
+    Patrons(String entry) throws Exception {
         System.out.println("This is the string that was passed : " + entry);
         try {
             String[] parts = entry.split("-"); //apart of the string class that can take an argument to split the string with
             //https://www.w3schools.com/java/ref_string_split.asp
 
-            this.id = Integer.parseInt(parts[0]);
+            //Updated code that uses the created function taken id to see of the id is already in the array list
+            int id = Integer.parseInt(parts[0]);
+            if(takenId(id)){
+                throw new Exception("Patron id is already taken :" + id);
+            }
+
+            this.id = id;
             //https://www.geeksforgeeks.org/java/integer-valueof-vs-integer-parseint-with-examples/
             this.name = parts[1];
             this.address = parts[2];
@@ -57,10 +63,36 @@ public class Patrons {
             //https://www.geeksforgeeks.org/java/double-parsedouble-method-in-java-with-examples/
 
         } catch (Exception e) {
-            System.out.println("Invalid patron entry: " + entry);
+            //System.out.println("Invalid patron entry: " + entry);
+            throw new Exception("Throwing up to prevent a null data entry");
         }
     }//todo does this try the same incorrect input or does it try a new line
 
+
+    //Checks for existing ids.
+
+    /**
+     *
+     * Method Name: takenId
+     *
+     * Purpose:
+     * to check if the array list has an entry with an existing id
+     *
+     * Arguments:
+     * it takes an integer value
+     *
+     * Return Value:
+     * It returns a boolean
+     *
+     */
+    boolean takenId(int id){
+        for(Patrons p : patrons){
+            if(p.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public int getId() {
         return id;
